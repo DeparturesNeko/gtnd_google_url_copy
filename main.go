@@ -1,7 +1,7 @@
 package main
 
 import (
-	_ "embed" // 引入 embed 模块用于打包静态资源
+	_ "embed" // 引入 embed 模块打包静态资源
 	"net/url"
 	"strings"
 	"time"
@@ -12,9 +12,11 @@ import (
 	"golang.org/x/sys/windows"
 )
 
-// --- 新增代码：将图标文件嵌入到程序二进制中 ---
+// --- 将图标文件嵌入到程序二进制中 ---
+//
 //go:embed icon.ico
 var iconData []byte
+
 // ------------------------------------------
 
 var (
@@ -28,13 +30,13 @@ func main() {
 }
 
 func onReady() {
-	// --- 修改部分：设置托盘图标 ---
+	// --- 托盘图标 ---
 	systray.SetIcon(iconData) // 直接使用嵌入的图标数据
 	// ---------------------------
 
 	systray.SetTitle("Chrome 链接净化器")
 	systray.SetTooltip("正在监控 Chrome 地址栏复制...")
-	
+
 	mQuit := systray.AddMenuItem("退出程序", "停止运行并关闭")
 
 	go func() {
@@ -68,7 +70,7 @@ func clipboardLoop() {
 				lastText = text
 			}
 		}
-		time.Sleep(500 * time.Millisecond)
+		time.Sleep(1000 * time.Millisecond)
 	}
 }
 
